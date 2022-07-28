@@ -1,13 +1,15 @@
-const { Router } = require("express");
-const router = Router();
-const {
+import {
+    Router
+} from "express"
+const routerCart = Router();
+import {
     addCart,
     getAll,
     deleteById,
     searchByCart,
     addProductToCart,
     deleteFromCart,
-} = require("../controllers/cartControllers");
+} from "../controllers/cartControllers.js";
 
 const isAdmin = (admin) => {
 
@@ -21,28 +23,28 @@ const isAdmin = (admin) => {
 }
 
 
-router.get("/", isAdmin(true), (req, res) => {
+routerCart.get("/", isAdmin(true), (req, res) => {
     getAll(res);
 });
 
-router.post("/", (req, res) => {
+routerCart.post("/", (req, res) => {
     addCart(req.body, res);
 });
 
-router.delete("/:id", isAdmin(true), (req, res) => {
+routerCart.delete("/:id", isAdmin(true), (req, res) => {
     deleteById(req, res);
 });
 
-router.get("/:id/productos", isAdmin(true), (req, res) => {
+routerCart.get("/:id/productos", isAdmin(true), (req, res) => {
     searchByCart(req, res);
 });
 
-router.post("/:id/productos", (req, res) => {
+routerCart.post("/:id/productos", (req, res) => {
     addProductToCart(req, res);
 });
 
-router.delete("/:id/productos/:id_prod", (req, res) => {
+routerCart.delete("/:id/productos/:id_prod", (req, res) => {
     deleteFromCart(req, res);
 });
 
-module.exports = router;
+export default routerCart

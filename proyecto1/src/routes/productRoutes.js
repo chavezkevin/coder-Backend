@@ -1,8 +1,8 @@
-const { Router } = require("express");
-const router = Router();
-const { getAll, getById, addProduct, updateProduct, deleteById } = require("../controllers/prodControllers");
+import { Router } from "express"
+const routerProd = Router();
+import { getAll, getById, addProduct, updateProduct, deleteById } from "../controllers/prodControllers.js";
 
-const Contenedor = require("../contenedor.js");
+import Contenedor from "../contenedor.js";
 const products_C = new Contenedor("productDB", "productsIds");
 
 const isAdmin = (admin) => {
@@ -16,23 +16,23 @@ const isAdmin = (admin) => {
     })
 }
 
-router.get("/:id?", (req, res) => {
+routerProd.get("/:id?", (req, res) => {
     const { id } = req.params;
 
     id ? getById(req.params.id, res) : getAll(res);
 });
 
 
-router.post('/', isAdmin(true), (req, res) => {
+routerProd.post('/', isAdmin(true), (req, res) => {
     addProduct(req.body, res)
 })
 
-router.put('/:id', isAdmin(true), (req, res) => {
+routerProd.put('/:id', isAdmin(true), (req, res) => {
     updateProduct(req, res)
 })
 
-router.delete('/:id', isAdmin(true), (req, res) => {
+routerProd.delete('/:id', isAdmin(true), (req, res) => {
     deleteById(req, res)
 })
 
-module.exports = router;
+export default routerProd

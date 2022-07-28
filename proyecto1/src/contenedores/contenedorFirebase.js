@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 
-class Contenedor {
+class ContenedorFire {
     constructor(database, idDb) {
         this.database = database;
         this.idDb = idDb;
@@ -318,4 +318,4 @@ class Contenedor {
 
 }
 
-export default Contenedor
+export default ContenedorFire
