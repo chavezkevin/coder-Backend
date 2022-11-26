@@ -62,15 +62,17 @@ const renderMessage = (messageInfo) => {
     //recorro mensajes denormalizados y los inserto en el html
     const html = denormalizedMessages.messages.map(msgInfo => {
         return (`<div>
+                    <img width="80px" height="auto" src="${msgInfo._doc.author.avatar}" alt="">
                     <strong style="color: blue">${msgInfo._doc.author.alias}</strong>
                     <br>
-                    <img src="${msgInfo._doc.author.avatar}" alt="">
                     <br>
                     <em style="color:green">${msgInfo._doc.message}</em>
                     <br>    
                     <br>    
-                    <br>    
-            </div>`)
+                    <br>
+                    <br>
+                    <p>___________________________________________________________________________________________________</p>
+                </div>`)
     }).join(" ")
     messagesPool.innerHTML = html
 }

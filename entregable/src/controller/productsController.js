@@ -11,8 +11,7 @@ const getAllProductsController = async (req, res) => {
         const { avatar } = req.session
         const { role } = req.session
         //en este controller debo capturar el id de carrito del user para usarlo en el llamado a los metodos de cart.
-        // logger.info(req.user.username)
-        // logger.info(req.user._id)
+
         logger.info("*session.userId*", req.session.userId)
         logger.info("-session.cartId-", req.session.cartId)
 
@@ -25,7 +24,7 @@ const getAllProductsController = async (req, res) => {
     }
 }
 
-const getOneProductController = async (req, res) => {
+const getOneProductController = async (req, res, next) => {
     try {
         const { id } = req.params
         const { cartId } = req.session
@@ -33,12 +32,16 @@ const getOneProductController = async (req, res) => {
         const { avatar } = req.session
         const { role } = req.session
 
-        const products = await productDAO.getById(id)
+        const products = await productDAO.getOneById(id)
+
+        if (products.length <= 0) {
+            throw (error)
+        }
         const plantilla = validateAdmin(role)
 
         res.render(plantilla, { email, products, cartId, avatar })
     } catch (error) {
-        logger.error(error)
+        logger.error("Id product didn't found :(", error)
         res.redirect('/api/products/all')
     }
 }
@@ -84,4 +87,26 @@ const deleteOneProductController = async (req, res) => {
     }
 }
 
-export { getAllProductsController, getOneProductController, postNewProduct, deleteOneProductController }
+const getProductsByCategoryController = async (req, res) => {
+    try {
+        const { category } = req.params
+        const { cartId } = req.session
+        const { email } = req.user
+        const { avatar } = req.session
+        const { role } = req.session
+
+        const products = await productDAO.getByCategory(category)
+
+        if (products.length <= 0) {
+            throw (error)
+        }
+        const plantilla = validateAdmin(role)
+
+        res.render(plantilla, { email, products, cartId, avatar })
+    } catch (error) {
+        logger.error("Id product didn't found :(", error)
+        res.redirect('/api/products/all')
+    }
+}
+
+export { getAllProductsController, getOneProductController, postNewProduct, deleteOneProductController, getProductsByCategoryController }

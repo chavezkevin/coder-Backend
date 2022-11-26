@@ -10,7 +10,25 @@ class ProductDAO extends BaseRepository {
 
     async getById(id) {
         try {
-            const doc = await Product.findOne({ _id: id })
+            const doc = await Product.findById({ _id: id })
+            return doc
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    async getByCategory(category) {
+        try {
+            const doc = await Product.find({ category: category })
+            return doc
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    async getOneById(id) {
+        try {
+            const doc = await Product.find({ _id: id })
             return doc
         } catch (error) {
             console.log(error)
@@ -62,34 +80,3 @@ class ProductDAO extends BaseRepository {
 }
 
 export { ProductDAO }
-
-// const productDAO = {
-
-//     async getById(id) {
-//         const doc = await Product.findOne( { _id: id } )
-//         return doc
-//     },
-
-//     async getAll(){
-//         const doc = await Product.find({})
-//         return doc
-//     },
-
-//     async createDocument(document){
-//         const doc = await Product.insertMany(document)
-//         return doc[0]._id
-//     },
-
-//     async updateDocument(id, paramsToUpdate){
-//         const doc = await Product.updateOne({ _id: id }, {$set: paramsToUpdate})
-//         return "Documento actualizado en la base :)"
-//     },
-
-//     async deleteById(id){
-//         const doc = await Product.deleteOne({ _id: id })
-//         return "Documento eliminado de la base :)"
-//     }
-
-// }
-
-// export { productDAO }

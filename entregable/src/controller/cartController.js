@@ -56,7 +56,6 @@ const cartControllerInsertProduct = async (req, res) => {
 const cartControllerGetUserCart = async (req, res) => {
     try {
         const { products } = await cartDAO.getByUserId(req.session.userId)
-
         const ProductsPromises = await products.map(async (product) => {
             const productData = await productDAO.getById(product.productId)
             return {
@@ -68,11 +67,9 @@ const cartControllerGetUserCart = async (req, res) => {
                 total: productData.price * product.quantity
             }
         })
-
         const productsInCart = await Promise.all(ProductsPromises)
 
         req.session.productsInCart = productsInCart
-
         res.render("plantillaCart.ejs", { productsInCart })
     } catch (error) {
         logger.error(error)
